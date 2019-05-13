@@ -101,6 +101,8 @@ def decode(msg, dt):
             if 5 <= tc <= 18:
                 altitude = pms.adsb.altitude(msg)
                 print(f"ICAO: {icao} height: {altitude}", end="\n")
+                altitude_sql = f"UPDATE `airplane` SET `altitude` = '{altitude}' WHERE `airplane`.`ICAO` = '{icao}'"
+                dbcur.execute(altitude_sql)
 
                 if pms.adsb.oe_flag(msg):
                     planedata[plane_index].msgodd(msg, dt)
